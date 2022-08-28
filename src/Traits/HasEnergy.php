@@ -15,8 +15,9 @@ trait HasEnergy
         }
         $entity = $this->fresh();
         if(!in_array(request()->ip(), config('trends.ip_blacklist'))) {
+            $energisableAmount = $this->energy->amount;
             $this->energy()->update([
-                'amount' => $entity->energy->amount += $amount
+                'amount' => $energisableAmount - $amount
             ]);
             EnergyDecay::dispatch($entity, 0.25 * $amount)->delay(now()->addHours(config('trends.energy_decay')));
             EnergyDecay::dispatch($entity, 0.45 * $amount)->delay(now()->addHours(config('trends.energy_decay') * 2));
