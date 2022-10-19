@@ -15,7 +15,7 @@ trait HasEnergy
         }
         $entity = $this->fresh();
         if(!in_array(request()->ip(), config('trends.ip_blacklist'))) {
-            $energisableAmount = $this->energy->amount;
+            $energisableAmount = $this->energy ? $this->energy->amount : 0;
             $this->energy()->update([
                 'amount' => $energisableAmount += $amount
             ]);
